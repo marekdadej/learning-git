@@ -1,4 +1,4 @@
-print("Lista zakupów")
+print("\n\t\tLista zakupów")
 
 list = {
     "Piekrnia": ["Chleb", "Bułki", "Pączek", "Gniazdko", "Jagodzianka"],
