@@ -1,8 +1,8 @@
-print("\n\t\tLista zakupów")
+print("Lista zakupów")
 
 list = {
-    "Piekrnia": ["Chleb", "Bułki", "Pączek", "Gniazdko", "Jagodzianka"],
-    "Warzywniak": ["Marchew", "Seler", "Rukola", "Ziemniaki"]
+    "Piekrnia": ["Chleb", "Bułki", "Pączek"],
+    "Warzywniak": ["Marchew", "Seler", "Rukola"]
 }
 
 total_products = 0
