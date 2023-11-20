@@ -1,7 +1,7 @@
 print("\n\t\tLista zakupów")
 
 list = {
-    "Piekrnia": ["Chleb", "Bułki", "Pączek", "Gniazdko"],
+    "Piekrnia": ["Chleb", "Bułki", "Pączek", "Gniazdko", "Jagodzianka"],
     "Warzywniak": ["Marchew", "Seler", "Rukola", "Ziemniaki"]
 }
 
