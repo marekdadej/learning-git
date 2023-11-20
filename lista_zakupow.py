@@ -2,7 +2,9 @@ print("\n\t\tLista zakupów")
 
 list = {
     "Piekrnia": ["Chleb", "Bułki", "Pączek", "Gniazdko", "Jagodzianka"],
-    "Warzywniak": ["Marchew", "Seler", "Rukola", "Ziemniaki"]
+    "Warzywniak": ["Marchew", "Seler", "Rukola", "Ziemniaki"],
+    "Mięsny": ["Pierś kurczaka", "Udka", "Golonka", "Szynka"],
+    "Samochodowego": ["Olej silnikowy", "Filtr powietrza", "Sprzęgło do matiza"]
 }
 
 total_products = 0
