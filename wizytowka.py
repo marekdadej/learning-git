@@ -1,42 +1,87 @@
-class BusinessCard:
-  def __init__(self, name, lastname, company, workplace, email):
-      self.name = name
-      self.lastname = lastname
-      self.company = company
-      self.workplace = workplace
-      self.email = email
+from faker import Faker
 
-  def __str__(self):
-      return f"{self.name} {self.lastname} - {self.email}"
+fake = Faker()
 
-  def contact(self):
-      print(f"Kontaktuję się z {self.name} {self.lastname}, {self.workplace}, email: {self.email}")
+class BaseContact:
+    def __init__(self, name, lastname, phone, email):
+        self.name = name
+        self.lastname = lastname
+        self.phone = phone
+        self.email = email
 
-  @property
-  def full_name_length(self):
-      return len(f"{self.name} {self.lastname}")
+    def __str__(self):
+        return f"{self.name} {self.lastname} - {self.email}"
 
-# Tworzenie obiektów reprezentujących wizytówki
-card1 = BusinessCard(name="Janusz", lastname="Sawicki", company="Ernst Home Centers", workplace="Upholsterer", email="JanuszSawicki@jourrapide.com")
-card2 = BusinessCard(name="Lucjusz", lastname="Król", company="Quality Merchant Services Occupation", workplace="Coin, vending, and amusement machine servicer", email="LucjuszKrol@armyspy.com")
-card3 = BusinessCard(name="Witołd", lastname="Wiśniewski", company="Jay Jacobs", workplace="Local truck driver", email="WitoldWisniewski@armyspy.com")
-card4 = BusinessCard(name="Zygmunt", lastname="Nowakowski", company="King Carol", workplace="Hotel detective", email="ZygmuntNowakowski@armyspy.com")
-card5 = BusinessCard(name="Przemko", lastname="Grabowski", company="Delchamps", workplace="Public health dentist", email="PrzemkoGrabowski@jourrapide.com")
+    def contact(self):
+        print(f"Wybieram numer {self.phone} i dzwonię do {self.name} {self.lastname}")
 
-# Lista przechowująca wizytówki
-cards_list = [card1, card2, card3, card4, card5]
+    @property
+    def label_length(self):
+        return len(f"{self.name} {self.lastname}")
+
+class BusinessContact(BaseContact):
+    def __init__(self, name, lastname, phone, email, company, workplace, business_phone):
+        super().__init__(name, lastname, phone, email)
+        self.company = company
+        self.workplace = workplace
+        self.business_phone = business_phone
+
+    def contact(self):
+        print(f"Wybieram numer {self.business_phone} i dzwonię do {self.name} {self.lastname}")
+
+    @property
+    def label_length(self):
+        return len(f"{self.name} {self.lastname}")
+
+def create_contacts(contact_type, quantity):
+    contacts = []
+    for _ in range(quantity):
+        if contact_type == "Base":
+            contact = BaseContact(fake.first_name(), fake.last_name(), fake.phone_number(), fake.email())
+        elif contact_type == "Business":
+            contact = BusinessContact(fake.first_name(), fake.last_name(), fake.phone_number(), fake.email(), fake.company(), fake.job(), fake.phone_number())
+        contacts.append(contact)
+    return contacts
+
+# Tworzenie wizytówek
+base_contacts = create_contacts("Base", 5)
+business_contacts = create_contacts("Business", 5)
 
 # Wyświetlanie informacji z wizytówek
-for index, card in enumerate(cards_list, start=1):
-  print(f"{index}. {card}")
+def display_contacts(contacts):
+  for index, contact in enumerate(contacts, start=1):
+      print(f"{index}. {contact}")
 
-# Wybór kontaktu przez użytkownika
-choice = int(input("Wybierz numer kontaktu (od 1 do 5): "))
+def display_contact_info(contact):
+  print(f"Imię i nazwisko: {contact.name} {contact.lastname}")
+  print(f"Email: {contact.email}")
 
-if 1 <= choice <= 5:
-  chosen_card = cards_list[choice - 1]
-  chosen_card.contact()
-  print(f"Długość imienia i nazwiska {chosen_card.name} {chosen_card.lastname}: {chosen_card.full_name_length}")
+  if isinstance(contact, BaseContact):
+      print(f"Numer telefonu: {contact.phone} (Prywatny)")
+  elif isinstance(contact, BusinessContact):
+      print(f"Numer telefonu: {contact.business_phone} (Służbowy)")
+
+print("Typy danych do wyboru:")
+print("1. Dane prywatne")
+print("2. Dane firmowe")
+
+choice = input("Wybierz numer (1 lub 2): ")
+
+if choice == "1":
+  display_contacts(base_contacts)
+  contact_choice = int(input("Wybierz numer kontaktu do wyświetlenia: "))
+  if 1 <= contact_choice <= len(base_contacts):
+      display_contact_info(base_contacts[contact_choice - 1])
+      base_contacts[contact_choice - 1].contact()
+  else:
+      print("Nieprawidłowy numer kontaktu.")
+elif choice == "2":
+  display_contacts(business_contacts)
+  contact_choice = int(input("Wybierz numer kontaktu do wyświetlenia: "))
+  if 1 <= contact_choice <= len(business_contacts):
+      display_contact_info(business_contacts[contact_choice - 1])
+      business_contacts[contact_choice - 1].contact()
+  else:
+      print("Nieprawidłowy numer kontaktu.")
 else:
-  print("Nieprawidłowy wybór. Wybierz numer od 1 do 5.")
-
+  print("Nieprawidłowy wybór.")
