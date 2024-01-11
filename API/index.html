@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kalkulator Walut</title>
+    <style>
+        /* Resetowanie domyślnych stylów dla wszystkich elementów */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Styl dla całej strony */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ustawienie na całą wysokość ekranu (viewport height) */
+}
+
+/* Styl dla kontenera */
+.container {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styl dla nagłówka */
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Styl dla przycisku */
+input[type="submit"] {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kalkulator Walut</h1>
+        <form method="POST">
+            <label for="currency">Wybierz walutę:</label>
+            <select id="currency" name="currency">
+                {% for rate in rates %}
+                    <option value="{{ rate.code }}">{{ rate.currency }} ({{ rate.code }})</option>
+                {% endfor %}
+            </select>
+            <br> <br>
+            <label for="amount">Podaj kwotę:</label>
+            <input type="text" id="amount" name="amount">
+            <br> <br>
+            <input type="submit" value="Przelicz">
+        </form>
+        {% if cost %}
+            <p>Koszt: {{ cost }} PLN</p>
+        {% endif %}
+    </div>
+</body>
+</html>
